@@ -46,11 +46,13 @@
 	<!-- Add your algorithms here -->
 	<script src="algorithms/dfs.js"></script>
 	<script src="algorithms/bfs.js"></script>
+	<script src="algorithms/beam.js"></script>
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
 			{ id: "dfs", name: "Depth First Search", run: dfs },
 			{ id: "bfs", name: "Breadth First Search", run: bfs },
+			{ id: "beam", name: "Beam Search", run: beam }
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
