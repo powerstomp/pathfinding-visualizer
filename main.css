@@ -1,0 +1,26 @@
+body {
+	font-family: fantasy;
+	margin: 0;
+	min-width: 100vw;
+	min-height: 100vh;
+	display: flex;
+}
+.grid {
+	display: flex;
+	flex-grow: 1;
+	margin: 0.75rem;
+}
+.sidebar {
+	width: 20em;
+	margin: 0.75rem;
+}
+label {
+	display: block;
+	margin-top: 0.5em;
+}
+input, select {
+	width: 100%;
+}
+select {
+	display: inline;
+}

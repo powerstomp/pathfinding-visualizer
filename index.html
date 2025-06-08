@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<title>Pathfinding Visualizer</title>
+
+	<link rel="stylesheet" href="main.css">
+	<script src="vendor/alpine.min.js" defer></script>
+</head>
+<body>
+	<div class="grid">
+		<canvas id="grid" x-data @click="$store.state.onClick($event)"></canvas>
+	</div>
+	<div class="sidebar" x-data="controller($store.state)" @resize.window="onViewChange()">
+		<h2>Grid Controls</h2>
+
+		<label for="numRows">Number of Rows: <strong x-text="$store.state.numRows"></strong></label>
+		<input
+			type="range" min="5" max="50" step="1"
+			x-model.number="$store.state.numRows"
+			@input="onMapSizeChange()"
+		/>
+
+		<label>Number of Columns: <strong x-text="$store.state.numCols"></strong></label>
+		<input
+			type="range" min="5" max="50" step="1"
+			x-model.number="$store.state.numCols"
+			@input="onMapSizeChange()"
+		/>
+
+		<label for="algorithm">Algorithm</label>
+		<select name="algorithm" x-model.string="selected" @change="init()">
+			<template x-for="algo in algorithms">
+				<option :value="algo.id" x-text="algo.name"></option>
+			</template>
+		</select>
+		<label>Moves: <strong x-text="currentFrame"></strong>/<span x-text="frames.length - 1"></span></label>
+		<button @click="runAlgorithm()">Find Path</button>
+		<button @click="runNextFrame()">Next</button>
+		<button @click="runPreviousFrame()">Previous</button>
+	</div>
+	<script src="utils.js"></script>
+
+	<!-- Add your algorithms here -->
+	<script src="algorithms/dfs.js"></script>
+	<script>
+		var algorithms = [
+			{ id: null, name: "Choose an algorithm" },
+			{ id: "dfs", name: "Depth First Search", run: dfs },
+		];
+		document.addEventListener("alpine:init", () => {
+			Alpine.store("state", gridRenderer());
+		});
+	</script>
+	<script src="gridRenderer.js"></script>
+	<script src="controller.js"></script>
+</body>
