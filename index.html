@@ -31,7 +31,7 @@
 		/>
 
 		<label for="algorithm">Algorithm</label>
-		<select name="algorithm" x-model.string="selected" @change="init()">
+		<select name="algorithm" x-model.string="selected" @change="runAlgorithm()">
 			<template x-for="algo in algorithms">
 				<option :value="algo.id" x-text="algo.name"></option>
 			</template>
