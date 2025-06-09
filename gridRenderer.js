@@ -46,20 +46,19 @@ function gridRenderer() {
 			this.ctx.strokeStyle = lineColor;
 			this.ctx.lineWidth = 1;
 
+			this.ctx.beginPath();
 			for (let i = 0; i <= this.numRows; i++) {
 				const y = i * this.cellHeight;
-				this.ctx.beginPath();
+
 				this.ctx.moveTo(0, y);
 				this.ctx.lineTo(this.canvas.width, y);
-				this.ctx.stroke();
 			}
 			for (let i = 0; i <= this.numCols; i++) {
 				const x = i * this.cellWidth;
-				this.ctx.beginPath();
 				this.ctx.moveTo(x, 0);
 				this.ctx.lineTo(x, this.canvas.height);
-				this.ctx.stroke();
 			}
+			this.ctx.stroke();
 
 			for (let i = 0; i < this.numRows; i++)
 				for (let j = 0; j < this.numCols; j++)
