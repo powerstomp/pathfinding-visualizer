@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
 	<link rel="stylesheet" href="main.css">
 	<script src="vendor/alpine.min.js" defer></script>
 </head>
+
 <body>
 	<div class="grid">
 		<canvas id="grid" x-data @click="$store.state.onClick($event)"></canvas>
@@ -17,29 +19,28 @@
 		<h2>Grid Controls</h2>
 
 		<label for="numRows">Number of Rows: <strong x-text="$store.state.numRows"></strong></label>
-		<input
-			type="range" min="5" max="50" step="1"
-			x-model.number="$store.state.numRows"
-			@input="onMapSizeChange()"
-		/>
+		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numRows"
+			@change="onMapSizeChange()" />
 
 		<label>Number of Columns: <strong x-text="$store.state.numCols"></strong></label>
-		<input
-			type="range" min="5" max="50" step="1"
-			x-model.number="$store.state.numCols"
-			@input="onMapSizeChange()"
-		/>
+		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numCols"
+			@change="onMapSizeChange()" />
 
 		<label for="algorithm">Algorithm</label>
-		<select name="algorithm" x-model.string="selected" @change="init()">
+		<select name="algorithm" x-model.string="selected" @change="runAlgorithm()">
 			<template x-for="algo in algorithms">
 				<option :value="algo.id" x-text="algo.name"></option>
 			</template>
 		</select>
+		<input type="range" min="0" :max="frames.length - 1" step="1" x-model.number="currentFrame"
+			@change="runFrame(currentFrame)" />
 		<label>Moves: <strong x-text="currentFrame"></strong>/<span x-text="frames.length - 1"></span></label>
-		<button @click="runAlgorithm()">Find Path</button>
-		<button @click="runNextFrame()">Next</button>
-		<button @click="runPreviousFrame()">Previous</button>
+		<label>Run time: <strong x-text="runtimeMillis.toFixed(2)"></strong>ms</label>
+		<div class="row">
+			<button @click="runAlgorithm()">Find Path</button>
+			<button @click="runNextFrame()">Next</button>
+			<button @click="runPreviousFrame()">Previous</button>
+		</div>
 	</div>
 	<script src="utils.js"></script>
 
