@@ -21,5 +21,5 @@ function dfs({ map, start, end, markFrontier, markVisited, startIteration }) {
 			markFrontier(v);
 		}
 	}
-	return { cost: pathCost, path: [] };
+	// return { cost: pathCost, path: [] };
 }
