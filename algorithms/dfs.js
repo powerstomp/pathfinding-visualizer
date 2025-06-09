@@ -1,4 +1,4 @@
-function dfs({ map, start, markFrontier, markVisited, startIteration }) {
+function dfs({ map, start, end, markFrontier, markVisited, startIteration }) {
 	let visited = Array.from(Array(map.length), () => new Array(map[0].length));
 	let queue = [start];
 	while (queue.length) {
@@ -21,4 +21,5 @@ function dfs({ map, start, markFrontier, markVisited, startIteration }) {
 			markFrontier(v);
 		}
 	}
+	return { cost: pathCost, path: [] };
 }
