@@ -6,15 +6,18 @@ function controller(state) {
 		selected: null,
 		frames: [[]],
 		currentFrame: 0,
+		runtimeMillis: 0,
 		init() {
 			this.frames = [[]];
 			this.currentFrame = 0;
+			this.runtimeMillis = 0;
 			this.runFrame(this.currentFrame);
 		},
 		runAlgorithm() {
 			let algorithm = algorithms.find(({ id }) => id === this.selected);
 			let frames = [[]];
-			if (algorithm && findMap(state.map, 'S'))
+			if (algorithm && findMap(state.map, 'S')) {
+				let startTime = performance.now();
 				algorithm.run({
 					map: state.map, start: findMap(state.map, 'S'),
 					startIteration: () => frames.push([]),
@@ -23,6 +26,10 @@ function controller(state) {
 					markVisited: ([i, j]) =>
 						frames.at(-1).push([i, j, visitedColor]),
 				});
+				let endTime = performance.now();
+
+				this.runtimeMillis = endTime - startTime;
+			}
 			this.frames = frames;
 			this.currentFrame = 0;
 			this.runFrame();
