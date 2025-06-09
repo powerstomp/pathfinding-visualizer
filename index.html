@@ -20,14 +20,14 @@
 		<input
 			type="range" min="5" max="50" step="1"
 			x-model.number="$store.state.numRows"
-			@input="onMapSizeChange()"
+			@change="onMapSizeChange()"
 		/>
 
 		<label>Number of Columns: <strong x-text="$store.state.numCols"></strong></label>
 		<input
 			type="range" min="5" max="50" step="1"
 			x-model.number="$store.state.numCols"
-			@input="onMapSizeChange()"
+			@change="onMapSizeChange()"
 		/>
 
 		<label for="algorithm">Algorithm</label>
@@ -36,6 +36,11 @@
 				<option :value="algo.id" x-text="algo.name"></option>
 			</template>
 		</select>
+		<input
+			type="range" min="0" :max="frames.length - 1" step="1"
+			x-model.number="currentFrame"
+			@change="runFrame(currentFrame)"
+		/>
 		<label>Moves: <strong x-text="currentFrame"></strong>/<span x-text="frames.length - 1"></span></label>
 		<label>Run time: <strong x-text="runtimeMillis"></strong>ms</label>
 		<div class="row">
