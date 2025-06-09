@@ -1,6 +1,6 @@
 const visitedColor = "oklch(70.7% 0.022 261.325)";
 const frontierColor = "oklch(74% 0.238 322.16)";
-
+const pathColor = "oklch(87.1% 0.15 154.449)";
 function controller(state) {
 	return {
 		selected: null,
@@ -16,10 +16,10 @@ function controller(state) {
 		runAlgorithm() {
 			let algorithm = algorithms.find(({ id }) => id === this.selected);
 			let frames = [[]];
-			if (algorithm && findMap(state.map, 'S')) {
+			if (algorithm && (start = findMap(state.map, 'S')) && (end = findMap(state.map, 'G'))) {
 				let startTime = performance.now();
 				algorithm.run({
-					map: state.map, start: findMap(state.map, 'S'),
+					map: state.map, start, end,
 					startIteration: () => frames.push([]),
 					markFrontier: ([i, j]) =>
 						frames.at(-1).push([i, j, frontierColor]),
