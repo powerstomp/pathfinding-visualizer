@@ -43,7 +43,9 @@ function controller(state) {
 		runNextFrame() {
 			if (++this.currentFrame >= this.frames.length)
 				this.currentFrame = this.frames.length - 1;
-			this.runFrame(this.currentFrame);
+			for (obj of this.frames[this.currentFrame])
+				state.drawCell(...obj);
+			// this.runFrame(this.currentFrame);
 		},
 		runPreviousFrame() {
 			if (--this.currentFrame < 0)
