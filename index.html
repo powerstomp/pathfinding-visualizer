@@ -43,15 +43,20 @@
 		</div>
 	</div>
 	<script src="utils.js"></script>
+	<script src="shared/queue.js"></script>
 
 	<!-- Add your algorithms here -->
 	<script src="algorithms/dfs.js"></script>
+	<script src="algorithms/ucs.js"></script>
+	<script src="algorithms/bidi.js"></script>
 	<script src="algorithms/bfs.js"></script>
 	<script src="algorithms/beam.js"></script>
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
 			{ id: "dfs", name: "Depth First Search", run: dfs },
+			{ id: "ucs", name: "Uniform Cost Search", run: ucs },
+			{ id: "bidi", name: "bidi", run: bidi_BFS },
 			{ id: "bfs", name: "Breadth First Search", run: bfs },
 			{ id: "beam", name: "Beam Search", run: beam }
 		];
