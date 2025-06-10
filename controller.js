@@ -1,6 +1,7 @@
-const visitedColor = "oklch(70.7% 0.022 261.325)";
-const frontierColor = "oklch(74% 0.238 322.16)";
-const pathColor = "oklch(87.1% 0.15 154.449)";
+const visitedColor = "#cbc7d8";    // Muted Lavender-Blue (slightly desaturated for background elements)
+const frontierColor = "#f2dde1";   // Vibrant Raspberry (stands out as active frontier)
+const pathColor = "#e094a0";      // Bright Spring Green (for the explored path segments)
+
 function controller(state) {
 	return {
 		selected: null,
@@ -43,7 +44,9 @@ function controller(state) {
 		runNextFrame() {
 			if (++this.currentFrame >= this.frames.length)
 				this.currentFrame = this.frames.length - 1;
-			this.runFrame(this.currentFrame);
+			for (obj of this.frames[this.currentFrame])
+				state.drawCell(...obj);
+			// this.runFrame(this.currentFrame);
 		},
 		runPreviousFrame() {
 			if (--this.currentFrame < 0)
