@@ -20,11 +20,11 @@
 
 		<label for="numRows">Number of Rows: <strong x-text="$store.state.numRows"></strong></label>
 		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numRows"
-			@change="onMapSizeChange()" />
+			@input="onMapSizeChange()" />
 
 		<label>Number of Columns: <strong x-text="$store.state.numCols"></strong></label>
 		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numCols"
-			@change="onMapSizeChange()" />
+			@input="onMapSizeChange()" />
 
 		<label for="algorithm">Algorithm</label>
 		<select name="algorithm" x-model.string="selected" @change="runAlgorithm()">
