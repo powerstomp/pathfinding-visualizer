@@ -1,8 +1,9 @@
 function bfs({ map, start, markFrontier, markVisited, startIteration }) {
     let visited = Array.from(Array(map.length), () => new Array(map[0].length));
-    let queue = [start];
-    while (queue.length) {
-        let u = queue.shift();
+    let q = new queue();
+    q.push(start);
+    while (!q.isEmpty()) {
+        let u = q.pop();
         if (visited[u[0]][u[1]])
             continue;
         startIteration();
@@ -17,7 +18,7 @@ function bfs({ map, start, markFrontier, markVisited, startIteration }) {
                 continue;
             if (map[v[0]][v[1]] === 'G')
                 return;
-            queue.push(v);
+            q.push(v);
             markFrontier(v);
         }
     }
