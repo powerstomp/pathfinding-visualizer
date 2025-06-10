@@ -10,6 +10,9 @@ body {
 	flex-grow: 1;
 	margin: 0.75rem;
 }
+#grid {
+	image-rendering: crisp-edges;
+}
 .sidebar {
 	display: flex;
 	flex-direction: column;

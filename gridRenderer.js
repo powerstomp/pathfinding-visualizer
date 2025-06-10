@@ -48,24 +48,25 @@ function gridRenderer() {
 			this.ctx.strokeStyle = lineColor;
 			this.ctx.lineWidth = 1;
 
-			this.ctx.beginPath();
 			for (let i = 0; i <= this.numRows; i++) {
-				const y = i * this.cellHeight;
-				this.ctx.moveTo(0, y);
-				this.ctx.lineTo(canvasWidth, y);
+				let y = Math.floor(i * this.cellHeight);
+				this.ctx.beginPath();
+				this.ctx.moveTo(0, y + 0.5);
+				this.ctx.lineTo(canvasWidth, y + 0.5);
+				this.ctx.stroke();
 			}
 			for (let i = 0; i <= this.numCols; i++) {
-				const x = i * this.cellWidth;
-				this.ctx.moveTo(x, 0);
-				this.ctx.lineTo(x, canvasHeight);
+				let x = Math.floor(i * this.cellWidth);
+				this.ctx.beginPath();
+				this.ctx.moveTo(x + 0.5, 0);
+				this.ctx.lineTo(x + 0.5, canvasHeight);
+				this.ctx.stroke();
 			}
 
 			for (let i = 0; i < this.numRows; i++)
 				for (let j = 0; j < this.numCols; j++)
 					if (this.map[i][j])
 						this.drawCell(i, j);
-			this.ctx.closePath();
-			this.ctx.stroke();
 		},
 
 		getCellColor(i, j) {
@@ -80,11 +81,13 @@ function gridRenderer() {
 			if (!color)
 				color = this.getCellColor(i, j);
 
-			const x = j * this.cellWidth;
-			const y = i * this.cellHeight;
+			let x = Math.floor(j * this.cellWidth);
+			let y = Math.floor(i * this.cellHeight);
+			let nextX = Math.floor((j + 1) * this.cellWidth);
+			let nextY = Math.floor((i + 1) * this.cellHeight);
 
 			this.ctx.fillStyle = color;
-			this.ctx.fillRect(x + 1, y + 1, this.cellWidth - 2, this.cellHeight - 2);
+			this.ctx.fillRect(x + 1, y + 1, nextX - x - 1, nextY - y - 1);
 		},
 		toggleCell(i, j) {
 			if (this.map[i][j])
