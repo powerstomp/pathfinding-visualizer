@@ -1,8 +1,9 @@
-const lineColor = "oklch(70.9% 0.01 56.259)";
-const fillColor = "oklch(44.4% 0.011 73.639)";
-const wallColor = "oklch(37.2% 0.044 257.287)";
-const startColor = "oklch(76.8% 0.233 130.85)";
-const goalColor = "oklch(82.8% 0.189 84.429)";
+const lineColor = "#8db7d2";       // Deep Olive Green (for grid lines, subtle but visible)
+const fillColor = "#5e62a9";       // Earthy Muted Green (for the default grid background)
+const wallColor = "#434279";      // Dark Indigo (strong contrast for impassable walls)
+const startColor = "oklch(75% 0.28 120)";     // Lively Chartreuse (clearly marks the beginning)
+const goalColor = "oklch(85% 0.2 80)";       // Sunny Yellow (clearly marks the destination, good contrast with start)
+
 function gridRenderer() {
 	return {
 		numRows: 15,
