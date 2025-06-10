@@ -30,7 +30,7 @@ function __frontier_resident_chk_n_update(frtr, tile) {
     return false;
 }
 
-function ucs({ map, start, markFrontier, markVisited, startIteration }) { // for now this is a breadthfs, since theres no cost consideration yet.
+function ucs({ map, start, end, markFrontier, markVisited, startIteration }) { // for now this is a breadthfs, since theres no cost consideration yet.
 
     let _start_wcost = Array.from(start);
     _start_wcost.push(0);
