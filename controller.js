@@ -8,28 +8,53 @@ function controller(state) {
 		frames: [[]],
 		currentFrame: 0,
 		runtimeMillis: 0,
+		pathCost: null,
 		init() {
 			this.frames = [[]];
+			this.path = [];
 			this.currentFrame = 0;
 			this.runtimeMillis = 0;
+			this.pathCost = null;
 			this.runFrame(this.currentFrame);
 		},
 		runAlgorithm() {
 			let algorithm = algorithms.find(({ id }) => id === this.selected);
 			let frames = [[]];
-			if (algorithm && (start = findMap(state.map, 'S')) && (end = findMap(state.map, 'G'))) {
-				let startTime = performance.now();
-				algorithm.run({
-					map: state.map, start, end,
-					startIteration: () => frames.push([]),
-					markFrontier: ([i, j]) =>
-						frames.at(-1).push([i, j, frontierColor]),
-					markVisited: ([i, j]) =>
-						frames.at(-1).push([i, j, visitedColor]),
-				});
-				let endTime = performance.now();
+			let start, goal;
+			if (algorithm.run && (start = findMap(state.map, 'S')) && (goal = findMap(state.map, 'G'))) {
+				try {
+					state.map[start[0]][start[1]] = 0;
+					state.map[goal[0]][goal[1]] = 0;
+					let startTime = performance.now();
+					let path = algorithm.run({
+						map: state.map, start, goal,
+						startIteration: () => frames.push([]),
+						markFrontier: ([i, j]) =>
+							frames.at(-1).push([i, j, frontierColor]),
+						markVisited: ([i, j]) =>
+							frames.at(-1).push([i, j, visitedColor]),
+					});
+					let endTime = performance.now();
 
-				this.runtimeMillis = endTime - startTime;
+					this.runtimeMillis = endTime - startTime;
+
+					if (path) {
+						this.pathCost = 0;
+						let frame = [];
+						for (const [x, y] of path) {
+							frame.push([x, y, pathColor]);
+							console.log(x, y);
+							this.pathCost += state.map[x][y];
+						}
+						frames.push(frame);
+					} else
+						this.pathCost = null;
+				} catch (e) {
+					console.log(e);
+				} finally {
+					state.map[start[0]][start[1]] = 'S';
+					state.map[goal[0]][goal[1]] = 'G';
+				}
 			}
 			this.frames = frames;
 			this.currentFrame = 0;

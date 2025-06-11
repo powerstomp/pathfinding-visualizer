@@ -1,24 +1,24 @@
-function dfs({ map, start, markFrontier, markVisited, startIteration }) {
+function dfs({ map, start, goal, markFrontier, markVisited, startIteration }) {
 	let visited = Array.from(Array(map.length), () => new Array(map[0].length));
-	let queue = [start];
-	while (queue.length) {
-		let u = queue.pop();
-		if (visited[u[0]][u[1]])
-			continue;
-		startIteration();
-		visited[u[0]][u[1]] = true;
-		markVisited(u);
+	let path = [];
+	const run = (x, y) => {
+		if (visited[x][y])
+			return false;
+		path.push([x, y]);
+		if (x === goal[0] && y === goal[1])
+			return true;
 
-		for (let i = 0; i < 4; i++) {
-			let v = [u[0] + [0, 1, 0, -1][i], u[1] + [1, 0, -1, 0][i]];
-			if (v[0] < 0 || v[0] >= map.length || v[1] < 0 || v[1] >= map[0].length)
-				continue;
-			if (map[v[0]][v[1]] === true || visited[v[0]][v[1]])
-				continue;
-			if (map[v[0]][v[1]] === 'G')
-				return;
-			queue.push(v);
-			markFrontier(v);
-		}
-	}
+		startIteration();
+		visited[x][y] = true;
+		markVisited([x, y]);
+
+		for (const v of getAdjacent(map, [x, y]))
+			if (run(...v))
+				return true;
+
+		path.pop();
+		return false;
+	};
+	run(...start);
+	return path.length ? path : null;
 }

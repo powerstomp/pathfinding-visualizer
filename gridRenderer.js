@@ -66,14 +66,13 @@ function gridRenderer() {
 
 			for (let i = 0; i < this.numRows; i++)
 				for (let j = 0; j < this.numCols; j++)
-					if (this.map[i][j])
-						this.drawCell(i, j);
+					this.drawCell(i, j);
 		},
 
 		getCellColor(i, j) {
 			return this.map[i][j] === 'S' ? startColor
 				: this.map[i][j] === 'G' ? goalColor
-					: this.map[i][j] ? wallColor
+					: this.map[i][j] === true ? wallColor
 						: fillColor;
 		},
 		drawCell(i, j, color) {
@@ -89,10 +88,16 @@ function gridRenderer() {
 
 			this.ctx.fillStyle = color;
 			this.ctx.fillRect(x + 1, y + 1, nextX - x - 1, nextY - y - 1);
+
+			this.ctx.strokeStyle = "black";
+			this.ctx.font = "14px monospaced";
+			this.ctx.textBaseline = "top";
+			if (Number.isFinite(this.map[i][j]))
+				this.ctx.strokeText(this.map[i][j], x + 2, y + 1);
 		},
 		toggleCell(i, j) {
-			if (this.map[i][j])
-				this.map[i][j] = false;
+			if (!Number.isFinite(this.map[i][j]))
+				this.map[i][j] = getRandomDigit();
 			else
 				this.map[i][j] = (
 					!findMap(this.map, 'S') ? 'S'
