@@ -9,6 +9,7 @@
 
 	<link rel="stylesheet" href="main.css">
 	<script src="vendor/alpine.min.js" defer></script>
+	<script src="vendor/lodash.min.js" defer></script>
 </head>
 
 <body>
@@ -20,11 +21,11 @@
 
 		<label for="numRows">Number of Rows: <strong x-text="$store.state.numRows"></strong></label>
 		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numRows"
-			@input="onMapSizeChange()" />
+			@change="onMapSizeChange()" />
 
 		<label>Number of Columns: <strong x-text="$store.state.numCols"></strong></label>
 		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numCols"
-			@input="onMapSizeChange()" />
+			@change="onMapSizeChange()" />
 
 		<label for="algorithm">Algorithm</label>
 		<select name="algorithm" x-model.string="selected" @change="runAlgorithm()">
@@ -36,6 +37,7 @@
 			@change="runFrame(currentFrame)" />
 		<label>Moves: <strong x-text="currentFrame"></strong>/<span x-text="frames.length - 1"></span></label>
 		<label>Run time: <strong x-text="runtimeMillis.toFixed(2)"></strong>ms</label>
+		<label>Path cost: <strong x-text="pathCost"></strong></label>
 		<div class="row">
 			<button @click="runAlgorithm()">Find Path</button>
 			<button @click="runNextFrame()">Next</button>
@@ -52,9 +54,7 @@
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
-			{ id: "dfs", name: "Depth First Search", run: dfs },
-			{ id: "ucs", name: "Uniform Cost Search", run: ucs },
-			{ id: "bidi", name: "bidi", run: bidi_BFS },
+			{ id: "dfs", name: "Depth First Search (Backtracking)", run: dfs },
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
