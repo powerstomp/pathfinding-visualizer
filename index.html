@@ -55,6 +55,8 @@
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
 			{ id: "dfs", name: "Depth First Search (Backtracking)", run: dfs },
+			{ id: "ucs", name: "Uniform Cost Search (no backtracking yet)", run: new_ucs },
+			{ id: "bidi", name: "Bidi :3 (no backtracking yet, also Bidi is BFS)", run: bidi_BFS }
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
