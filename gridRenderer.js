@@ -111,6 +111,119 @@ function gridRenderer() {
 				cellY = Math.floor(offsetX / this.cellWidth);
 			this.toggleCell(cellX, cellY);
 			this.drawCell(cellX, cellY);
+		},
+		randomMazeGen() {
+			const w = this.numRows;
+			const h = this.numCols;
+
+			let start = findMap(this.map, 'S');
+			let goal = findMap(this.map, 'G');
+			if (!start || !goal) return this.map;
+
+			const newMap = Array.from({ length: w }, (_, i) =>
+				Array.from({ length: h }, (_, j) =>
+					(i === 0 || i === w - 1 || j === 0 || j === h - 1)
+						? getRandomDigit()
+						: true 
+				)
+			);
+
+			let stack = [];
+			let sx = start[0], sy = start[1];
+			if (sx <= 0) sx = 1;
+			if (sy <= 0) sy = 1;
+			if (sx >= w - 1) sx = w - 2;
+			if (sy >= h - 1) sy = h - 2;
+			if (sx % 2 === 0) sx++;
+			if (sy % 2 === 0) sy++;
+			newMap[sx][sy] = getRandomDigit();
+			stack.push([sx, sy]);
+
+			const dirs = [
+				[0, 2],  // D
+				[2, 0],  // R
+				[0, -2], // U
+				[-2, 0], // L
+			];
+
+			while (stack.length) {
+				const [x, y] = stack[stack.length - 1];
+				let neighbors = [];
+				for (let [dx, dy] of dirs) {
+					let nx = x + dx, ny = y + dy;
+					if (
+						nx > 0 && nx < w - 1 && ny > 0 && ny < h - 1 &&
+						newMap[nx][ny] === true
+
+					) {
+						neighbors.push([nx, ny, dx, dy]);
+					}
+				}
+				if (neighbors.length) {
+					const [nx, ny, dx, dy] = neighbors[Math.floor(Math.random() * neighbors.length)];
+					newMap[x + dx / 2][y + dy / 2] = getRandomDigit();
+					newMap[nx][ny] = getRandomDigit();
+					stack.push([nx, ny]);
+
+				} else {
+					stack.pop();
+				}
+			}
+
+			for (let i = 0; i < w; i++) {
+				let rand = Math.random();
+				if (rand < 0.5) {
+					newMap[i][h - 2] = getRandomDigit();
+				}
+			}
+
+			for (let j = 0; j < h; j++) {
+				let rand = Math.random();
+				if (rand < 0.5) {
+					newMap[w - 2][j] = getRandomDigit();
+				}
+			}
+
+			for (let j = 0; j < h; j++) {
+				if (Math.random() < 0.3) newMap[0][j] = true;
+			}
+
+			for (let i = 0; i < w; i++) {
+				if (Math.random() < 0.3) newMap[i][0] = true;
+			}
+
+			for (let j = 0; j < h; j++) {
+				if (Math.random() < 0.3) newMap[w - 1][j] = true;
+			}
+
+			for (let i = 0; i < w; i++) {
+				if (Math.random() < 0.3) newMap[i][h - 1] = true;
+			}
+
+			let sS = getAdjacent(newMap, start);
+			let gS = getAdjacent(newMap, goal);
+			while (sS.length == 0 || gS.length == 0) {
+				let rand = Math.floor(Math.random() * 4);
+				if (sS.length == 0) {
+					if (newMap[start[0] + [0, 1, 0, -1][rand]][start[1] + [1, 0, -1, 0][rand]] !== true) {
+						newMap[start[0] + [0, 1, 0, -1][rand]][start[1] + [1, 0, -1, 0][rand]] = getRandomDigit();
+						sS = getAdjacent(newMap, start);
+					}
+				}
+				if (gS.length == 0) {
+					if (newMap[goal[0] + [0, 1, 0, -1][rand]][goal[1] + [1, 0, -1, 0][rand]] !== true) {
+						newMap[goal[0] + [0, 1, 0, -1][rand]][goal[1] + [1, 0, -1, 0][rand]] = getRandomDigit();
+						gS = getAdjacent(newMap, goal);
+					}
+				}
+			}
+			
+			newMap[start[0]][start[1]] = 'S';
+			newMap[goal[0]][goal[1]] = 'G';
+			
+			this.map = newMap;
+			console.log(this.map);
+			this.onViewChange();
 		}
 	}
 }
