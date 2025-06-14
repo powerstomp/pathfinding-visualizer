@@ -1,85 +1,106 @@
-// this would for now be bidi-BFS
-// import { queue } from "../shared/queue.js"
+function __subcompact_bidi_BFS({ map, path_tracker, search_towards, frtr, vs_fr, vs_fr_other, markFrontier, markVisited, startIteration }) {
+    const VS = 0;
+    const FR = 1;
 
-// const r_mod = [-1, 0, 1, 0];
-// const c_mod = [0, 1, 0, -1];
-
-// const TILE_ROW = 0;
-// const TILE_COL = 1;
-
-function compare_tile(a, b) {
-    return (a[TILE_ROW] === b[TILE_ROW] && a[TILE_COL] === b[TILE_COL]);
-}
-
-function __subcompact_bidi_BFS({ map, frtr, other_frtr, vstd, other_vstd, markFrontier, markVisited, startIteration }) {
     if (frtr.isEmpty())
-        return null;
-    let curtile = frtr.pop(); // pop from the frontier
+        return null; // this signifies one of the 2 or even both sides no longer has anywhere else to go to, thus no route
 
-    if (vstd[curtile[TILE_ROW]][curtile[TILE_COL]] === true)
-        return false; // stop if its already visited
+    let cur = frtr.pop_front();
+    vs_fr[cur[0]][cur[1]][FR] = false;
+
+    if (vs_fr[cur[0]][cur[1]][VS]) // if visited
+        return false;
+
+
 
     startIteration();
+    vs_fr[cur[0]][cur[1]][VS] = true;
+    markVisited(cur);
 
-    vstd[curtile[TILE_ROW]][curtile[TILE_COL]] = true; // now mark it visited
 
-    markVisited(curtile);
 
-    for (let i = 0; i < 4; i++) {
-        let ptt_visit = [curtile[TILE_ROW] + r_mod[i], curtile[TILE_COL] + c_mod[i]];
+    for (let next of getAdjacent(map, cur)) {
+        if (vs_fr[next[0]][next[1]][VS] || vs_fr[next[0]][next[1]][FR]) // if in frontier or visited
+            continue;
 
-        if (ptt_visit[TILE_ROW] < 0 || ptt_visit[TILE_ROW] >= map.length ||
-            ptt_visit[TILE_COL] < 0 || ptt_visit[TILE_COL] >= map[0].length)
-            continue; // this out of bounds
+        if (vs_fr_other[next[0]][next[1]][VS]) // if visited by opposite side
+            return [next, cur];
+        if ((next[0] === search_towards[0] && next[1] === search_towards[1])) // if on goal or start
+            return [next, cur];
 
-        if (vstd[ptt_visit[0]][ptt_visit[1]] || (map[ptt_visit[0]][ptt_visit[1]] === true) || frtr.exists(ptt_visit, compare_tile))
-            continue; // visited, impassible or already in the frontier
-
-        if (other_vstd[ptt_visit[0]][ptt_visit[1]])
-            return true; // visited by the other searching side.
-
-        if (map[ptt_visit[TILE_ROW]][ptt_visit[TILE_COL]] === "S" || map[ptt_visit[TILE_ROW]][ptt_visit[TILE_COL]] === "G")
-            return true; // if stumpled upon either start or finish
-
-        frtr.push(ptt_visit);
-        markFrontier(ptt_visit);
+        frtr.push_back(next);
+        path_tracker[next[0]][next[1]] = cur; // mark the next tile as coming from cur.
+        vs_fr[next[0]][next[1]][FR] = true;
+        markFrontier(next);
     }
-
+    return false;
 }
 
-function bidi_BFS({ map, start, end, markFrontier, markVisited, startIteration }) {
-    let frontierStart = new queue();
-    let frontierGoal = new queue();
-    frontierStart.push(start);
-    frontierGoal.push(end);
+function bidi_BFS({ map, start, goal, markFrontier, markVisited, startIteration }) {
+    let frontierStart = new linked_list();
+    let frontierGoal = new linked_list();
 
-    let visitedStart = Array.from({ length: map.length }, () => new Array(map[0].length));
-    let visitedGoal = Array.from({ length: map.length }, () => new Array(map[0].length));
+    frontierStart.push_back(start);
+    frontierGoal.push_front(goal);
 
+    let path_track_start = Array.from({ length: map.length }, () => (Array.from({ length: map[0].length }, () => null)));
+    let path_track_goal = Array.from({ length: map.length }, () => (Array.from({ length: map[0].length }, () => null)));
+
+    let combine_ex_fr_Start = Array.from({ length: map.length }, () => (
+        Array.from({ length: map[0].length }, () => (
+            Array.from({ length: 2 }, () => null)
+        ))
+    ));
+    let combine_ex_fr_Goal = Array.from({ length: map.length }, () => (
+        Array.from({ length: map[0].length }, () => (
+            Array.from({ length: 2 }, () => null)
+        ))
+    ));
+    let ret_Start = undefined;
+    let ret_Goal = undefined;
     while (1) {
-        let fromStart = __subcompact_bidi_BFS({
-            map: map,
-            frtr: frontierStart,
-            other_frtr: frontierGoal,
-            vstd: visitedStart,
-            other_vstd: visitedGoal,
-            markFrontier,
-            markVisited,
-            startIteration
-        });
-        let fromGoal = __subcompact_bidi_BFS({
-            map: map,
-            frtr: frontierGoal,
-            other_frtr: frontierStart,
-            vstd: visitedGoal,
-            other_vstd: visitedStart,
-            markFrontier,
-            markVisited,
-            startIteration
-        });
-        if (fromGoal === null || fromStart === null)
-            break;
-        if (fromGoal === true || fromStart === true)
-            break;
+        if (Array.isArray(ret_Goal) !== true) ret_Start = __subcompact_bidi_BFS({ map: map, path_tracker: path_track_start, search_towards: goal, frtr: frontierStart, vs_fr: combine_ex_fr_Start, vs_fr_other: combine_ex_fr_Goal, markFrontier, markVisited, startIteration });
+        if (Array.isArray(ret_Start) !== true) ret_Goal = __subcompact_bidi_BFS({ map: map, path_tracker: path_track_goal, search_towards: start, frtr: frontierGoal, vs_fr: combine_ex_fr_Goal, vs_fr_other: combine_ex_fr_Start, markFrontier, markVisited, startIteration });
+        if (ret_Goal === null || ret_Start === null)
+            return null;
+        if (Array.isArray(ret_Goal) === true || Array.isArray(ret_Start) === true) {
+            ret_Goal;
+            ret_Start;
+            return __return_path(ret_Start, ret_Goal, path_track_start, path_track_goal);
+        }
     }
+}
+
+function __return_path(rS, rG, pts, ptg) {
+    const NEXT = 0, CUR = 1;
+    let path = [];
+    if (Array.isArray(rS)) // this means the Start search side got here first. next should face the goal, cur faces start
+    {
+        let cur = rS[CUR];
+        while (cur !== null) {
+            path.push(cur);
+            cur = pts[cur[0]][cur[1]];
+        }
+        cur = rS[NEXT]
+
+        while (cur !== null) {
+            path.push(cur);
+            cur = ptg[cur[0]][cur[1]];
+        }
+    }
+    else // the opposite. next is the start and cur faces goal  
+    {
+        let cur = rG[CUR];
+        while (cur !== null) {
+            path.push(cur);
+            cur = ptg[cur[0]][cur[1]];
+        }
+        cur = rG[NEXT]
+
+        while (cur !== null) {
+            path.push(cur);
+            cur = pts[cur[0]][cur[1]];
+        }
+    }
+    return path;
 }
