@@ -49,6 +49,7 @@ function gridRenderer() {
 			this.ctx.strokeStyle = lineColor;
 			this.ctx.lineWidth = 1;
 
+			this.ctx.beginPath();
 			for (let i = 0; i <= this.numRows; i++) {
 				let y = Math.floor(i * this.cellHeight);
 				this.ctx.beginPath();
@@ -63,6 +64,7 @@ function gridRenderer() {
 				this.ctx.lineTo(x + 0.5, canvasHeight);
 				this.ctx.stroke();
 			}
+			this.ctx.stroke();
 
 			for (let i = 0; i < this.numRows; i++)
 				for (let j = 0; j < this.numCols; j++)

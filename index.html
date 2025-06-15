@@ -45,13 +45,19 @@
 		</div>
 	</div>
 	<script src="utils.js"></script>
+	<script src="shared/linked_list.js"></script>
+	<script src="shared/minheap.js"></script>
 
 	<!-- Add your algorithms here -->
 	<script src="algorithms/dfs.js"></script>
+	<script src="algorithms/ucs.js"></script>
+	<script src="algorithms/bidi.js"></script>
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
 			{ id: "dfs", name: "Depth First Search (Backtracking)", run: dfs },
+			{ id: "ucs", name: "Uniform Cost Search (no backtracking yet)", run: new_ucs },
+			{ id: "bidi", name: "Bidi :3 (no backtracking yet, also Bidi is BFS)", run: bidi_BFS }
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
