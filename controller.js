@@ -9,6 +9,7 @@ function controller(state) {
 		currentFrame: 0,
 		runtimeMillis: 0,
 		pathCost: null,
+		beamWidth: 3,
 		init() {
 			this.frames = [[]];
 			this.path = [];
@@ -33,6 +34,7 @@ function controller(state) {
 							frames.at(-1).push([i, j, frontierColor]),
 						markVisited: ([i, j]) =>
 							frames.at(-1).push([i, j, visitedColor]),
+						beamWidth: this.beamWidth,
 					});
 					let endTime = performance.now();
 

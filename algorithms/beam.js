@@ -1,4 +1,4 @@
-function beam({ map, start, goal, markFrontier, markVisited, startIteration, beamWidth = 3 }) {
+function beam({ map, start, goal, markFrontier, markVisited, startIteration, beamWidth }) {
     let visited = Array.from(Array(map.length), () => new Array(map[0].length));
     let q = new queue();
     q.push({ path: [start], cost: map[start[0]][start[1]] });
