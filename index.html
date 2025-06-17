@@ -48,10 +48,12 @@
 
 	<!-- Add your algorithms here -->
 	<script src="algorithms/dfs.js"></script>
+	<script src="algorithms/a_star.js"></script>
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
 			{ id: "dfs", name: "Depth First Search (Backtracking)", run: dfs },
+			{ id: "a star", name: "a star", run: a_star },
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
