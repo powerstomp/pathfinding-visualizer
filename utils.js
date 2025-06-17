@@ -28,3 +28,75 @@ function getAdjacent(map, [_x, _y]) {
 	console.log(result);
 	return result;
 }
+function randomMazeGen(map) {
+	const w = map.length;
+	const h = map[0].length;
+
+	let start = findMap(map, 'S');
+	let goal = findMap(map, 'G');
+	if (!start || !goal) return map;
+
+	const newMap = Array.from({ length: w }, (_, i) =>
+		Array.from({ length: h }, (_, j) => true)
+	);
+
+	let stack = [];
+	let sx = start[0], sy = start[1];
+	if (sx <= 0) sx = 1;
+	if (sy <= 0) sy = 1;
+	if (sx >= w - 1) sx = w - 2;
+	if (sy >= h - 1) sy = h - 2;
+	if (sx % 2 === 0) sx++;
+	if (sy % 2 === 0) sy++;
+	newMap[sx][sy] = getRandomDigit();
+	stack.push([sx, sy]);
+
+	const dirs = [
+		[0, 2],  // D
+		[2, 0],  // R
+		[0, -2], // U
+		[-2, 0], // L
+	];
+
+	while (stack.length) {
+		const [x, y] = stack[stack.length - 1];
+		let neighbors = [];
+		for (let [dx, dy] of dirs) {
+			let nx = x + dx, ny = y + dy;
+			if (
+				nx > 0 && nx < w - 1 && ny > 0 && ny < h - 1 &&
+				newMap[nx][ny] === true
+
+			) {
+				neighbors.push([nx, ny, dx, dy]);
+			}
+		}
+		if (neighbors.length) {
+			const [nx, ny, dx, dy] = neighbors[Math.floor(Math.random() * neighbors.length)];
+			newMap[x + dx / 2][y + dy / 2] = getRandomDigit();
+			newMap[nx][ny] = getRandomDigit();
+			stack.push([nx, ny]);
+
+		} else {
+			stack.pop();
+		}
+	}
+
+	if (w % 2 === 0) {
+		for (let j = 1; j < h - 1; j += Math.random() < 0.5 ? 2 : 1) {
+			if (newMap[w - 2][j] === true) newMap[w - 2][j] = getRandomDigit();
+		}
+	}
+
+	if (h % 2 === 0) {
+		for (let i = 1; i < w - 1; i += Math.random() < 0.5 ? 2 : 1) {
+			if (newMap[i][h - 2] === true) newMap[i][h - 2] = getRandomDigit();
+		}
+	}
+
+	newMap[start[0]][start[1]] = 'S';
+	newMap[goal[0]][goal[1]] = 'G';
+
+	console.log(newMap);
+	return newMap;
+}

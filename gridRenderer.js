@@ -109,6 +109,10 @@ function gridRenderer() {
 				cellY = Math.floor(offsetX / this.cellWidth);
 			this.toggleCell(cellX, cellY);
 			this.drawCell(cellX, cellY);
+		},
+		createMaze() {
+			this.map = randomMazeGen(this.map);
+			this.onViewChange();
 		}
 	}
 }
