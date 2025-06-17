@@ -61,6 +61,7 @@
 	<script src="algorithms/beam.js"></script>
 	<script src="algorithms/ucs.js"></script>
 	<script src="algorithms/bidi.js"></script>
+	<script src="algorithms/a_star.js"></script>
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
@@ -69,6 +70,7 @@
 			{ id: "beam", name: "Beam Search", run: beam },
 			{ id: "ucs", name: "Uniform Cost Search", run: ucs },
 			{ id: "bidi", name: "Bidirectional, BFS", run: bidi_BFS },
+			{ id: "a_star", name: "a star", run: a_star },
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
