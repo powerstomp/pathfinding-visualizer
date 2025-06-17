@@ -1,12 +1,9 @@
-function heuristic(a, b) {
-    return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
-}
-
 function a_star({ map, start, goal, markFrontier, markVisited, startIteration }) {
     openList = [start]
     cameFrom = Array.from(Array(map.length), () => new Array(map[0].length).fill(null));
     g = Array.from(Array(map.length), () => new Array(map[0].length).fill(Infinity));
     f = Array.from(Array(map.length), () => new Array(map[0].length).fill(Infinity));
+
 
     g[start[0]][start[1]] = 0;
     f[start[0]][start[1]] = heuristic(start, goal);
