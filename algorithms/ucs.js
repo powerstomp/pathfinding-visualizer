@@ -1,20 +1,21 @@
-function __path_map_gen(map) {
-    return Array.from({ length: map.length }, () =>
-        Array.from({ length: map[0].length }, () => null)
-    );
-}
-
 function ucs({ map, start, goal, markFrontier, markVisited, startIteration }) {
+    const _return_path = (pt, g) => {
+        let cur = g;
+        let path = []
+        while (cur !== null) {
+            path.push(cur);
+            cur = pt[cur[0]][cur[1]];
+        }
+        return path;
+    }
+
     let frontier = new minheap((a, b) => (a[2] - b[2])); // frontier itself, now a minheap
     frontier.push([start[0], start[1], 0]);
 
     const EX = 0, FT = 1;
     let ex_fr_map = Array.from({ length: map.length }, () => (Array.from({ length: map[0].length }, () => (Array.from({ length: 2 }, () => null))))); // this is for both visited and frontier check
 
-    let path = [];
-    let path_track = __path_map_gen(map);
-
-    let found = false;
+    let path_track = Array.from({ length: map.length }, () => Array.from({ length: map[0].length }, () => null));
 
     while (frontier.length()) {
         let cur_tile = frontier.pop(); // grab tile with smallest weight for evaluation
@@ -24,8 +25,7 @@ function ucs({ map, start, goal, markFrontier, markVisited, startIteration }) {
             // skip iteration if tile is already visited
             continue;
         if (cur_tile[0] === goal[0] && cur_tile[1] === goal[1]) {
-            found = true;
-            break; // if goal then eject
+            return _return_path(path_track, goal);
         }
 
         startIteration();
@@ -45,13 +45,5 @@ function ucs({ map, start, goal, markFrontier, markVisited, startIteration }) {
         }
     }
 
-    if (found) {
-        let cur = goal;
-        while (cur !== null) {
-            path.push([cur[0], cur[1]]);
-            cur = path_track[cur[0]][cur[1]];
-        }
-    }
-
-    return (path.length === 0) ? null : path; // for now this returns null
+    return null;
 }
