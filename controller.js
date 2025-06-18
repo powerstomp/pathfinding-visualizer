@@ -45,7 +45,7 @@ function controller(state) {
 						let frame = [];
 						for (const [x, y] of path) {
 							frame.push([x, y, pathColor]);
-							console.log(x, y);
+							// console.log(x, y);
 							this.pathCost += state.map[x][y];
 						}
 						frames.push(frame);

@@ -16,7 +16,7 @@ function findMap(map, item) {
 }
 function getAdjacent(map, [_x, _y]) {
 	let result = [];
-	console.log(_x, _y);
+	// console.log(_x, _y);
 	for (let i = 0; i < 4; i++) {
 		let x = _x + [0, 1, 0, -1][i], y = _y + [1, 0, -1, 0][i];
 		if (x < 0 || y < 0 || x >= map.length || y >= map[0].length)
@@ -25,7 +25,7 @@ function getAdjacent(map, [_x, _y]) {
 			continue;
 		result.push([x, y]);
 	}
-	console.log(result);
+	// console.log(result);
 	return result;
 }
 function randomMazeGen(map) {
@@ -97,7 +97,7 @@ function randomMazeGen(map) {
 	newMap[start[0]][start[1]] = 'S';
 	newMap[goal[0]][goal[1]] = 'G';
 
-	console.log(newMap);
+	// console.log(newMap);
 	return newMap;
 }
 
