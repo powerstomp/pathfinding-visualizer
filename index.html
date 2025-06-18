@@ -64,6 +64,7 @@
 	<script src="algorithms/a_star.js"></script>
 	<script src="algorithms/ida_star.js"></script>
 	<script src="algorithms/best_fs.js"></script>
+	<script src="algorithms/rbfs.js"></script>
 	<script>
 		var algorithms = [
 			{ id: null, name: "Choose an algorithm" },
@@ -75,6 +76,7 @@
 			{ id: "a_star", name: "A*", run: a_star },
 			{ id: "ida_star", name: "Iterative-deepening A* (IDA*)", run: ida_star },
 			{ id: "bestfs", name: "Best First Search", run: bestFS },
+			{ id: "rbfs", name: "Recursive best-first search (RBFS)", run: recursive_best_first_search },
 		];
 		document.addEventListener("alpine:init", () => {
 			Alpine.store("state", gridRenderer());
