@@ -11,7 +11,7 @@ function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, st
     if (node[0] === goal[0] && node[1] === goal[1]) return [true, f_node];
 
     let successors = getAdjacent(map, node)
-        .filter(n => !path.some(p => p[0] === n[0] && p[1] === n[1])) // Tránh lặp lại node trong path
+        .filter(n => !path.some(p => p[0] === n[0] && p[1] === n[1]))
         .map(n => ({
             node: n,
             g: g + map[n[0]][n[1]],
@@ -35,7 +35,7 @@ function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, st
 
         if (result) return [true, new_f];
         path.pop();
-        markVisited(best.node); // Đánh dấu node đã duyệt xong
+        markVisited(best.node);
         best.f = new_f;
     }
 }
