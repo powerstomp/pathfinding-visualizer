@@ -9,11 +9,6 @@ function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, st
     startIteration();
     let f_node = g + heuristic(node, goal);
 
-    if (!visited[node[0]][node[1]]) {
-        visited[node[0]][node[1]] = true;
-        markVisited(node);
-    }
-
     if (f_node > f_limit) return [false, f_node];
     if (node[0] === goal[0] && node[1] === goal[1])
         return [true, f_node];
@@ -44,7 +39,10 @@ function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, st
 
         if (result) return [true, new_f];
         path.pop();
-
+        if (!visited[best.node[0]][best.node[1]]) {
+            visited[best.node[0]][best.node[1]] = true;
+            markVisited(node);
+        }
         best.f = new_f;
     }
 }
