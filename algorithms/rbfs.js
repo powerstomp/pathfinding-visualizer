@@ -39,10 +39,15 @@ function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, st
 
         if (result) return [true, new_f];
         path.pop();
+
         if (!visited[best.node[0]][best.node[1]]) {
             visited[best.node[0]][best.node[1]] = true;
-            markVisited(node);
+            markVisited(best.node);
         }
         best.f = new_f;
+        if (new_f === Infinity) {
+            successors.shift();
+            if (successors.length === 0) return [false, Infinity];
+        }
     }
 }

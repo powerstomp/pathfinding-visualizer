@@ -29,9 +29,9 @@ function search({ map, g, threshold, path, node, goal, markFrontier, markVisited
 
 function ida_star({ map, start, goal, markFrontier, markVisited, startIteration }) {
     let visited = Array.from(Array(map.length), () => new Array(map[0].length));
-    let path = [start];
     let threshold = heuristic(start, goal);
     while (true) {
+        let path = [start];
         startIteration();
         let tmp = search({ map, g: 0, threshold, path, node: start, goal, markFrontier, markVisited, visited });
         if (tmp === true)
