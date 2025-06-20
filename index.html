@@ -20,11 +20,11 @@
 		<h2>Grid Controls</h2>
 
 		<label for="numRows">Number of Rows: <strong x-text="$store.state.numRows"></strong></label>
-		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numRows"
+		<input type="range" min="4" max="50" step="1" x-model.number="$store.state.numRows"
 			@change="onMapSizeChange()" />
 
 		<label>Number of Columns: <strong x-text="$store.state.numCols"></strong></label>
-		<input type="range" min="5" max="50" step="1" x-model.number="$store.state.numCols"
+		<input type="range" min="4" max="50" step="1" x-model.number="$store.state.numCols"
 			@change="onMapSizeChange()" />
 
 		<label for="algorithm">Algorithm</label>
