@@ -41,7 +41,7 @@ function bidi_BFS({ map, start, goal, markFrontier, markVisited, startIteration 
     let frontierGoal = new linked_list();
 
     frontierStart.push_back(start);
-    frontierGoal.push_front(goal);
+    frontierGoal.push_back(goal);
 
     let path_track_start = Array.from({ length: map.length }, () => (Array.from({ length: map[0].length }, () => null)));
     let path_track_goal = Array.from({ length: map.length }, () => (Array.from({ length: map[0].length }, () => null)));
