@@ -49,6 +49,8 @@
 			<button @click="runPreviousFrame()">Previous</button>
 			<button @click="$store.state.createMaze()">Create Maze</button>
 		</div>
+
+		<p x-text="extraData"></p>
 	</div>
 	<script src="utils.js"></script>
 	<script src="shared/queue.js"></script>

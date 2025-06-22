@@ -3,7 +3,7 @@ function HRT_MNHTTN(cur, goal) {
     return Math.abs(cur[R] - goal[R]) + Math.abs(cur[C] - goal[C]);
 }
 
-function bestFS({ map, start, goal, markFrontier, markVisited, startIteration }) {
+function bestFS({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
     const _return_path = (pt, g) => {
         let cur = g;
         let path = []
@@ -35,6 +35,7 @@ function bestFS({ map, start, goal, markFrontier, markVisited, startIteration })
         }
 
         startIteration();
+        inform(`h(n) = ${cur[HRT]}`);
         ex_fr_map[cur[R]][cur[C]][EXP] = true;
         markVisited(cur);
 

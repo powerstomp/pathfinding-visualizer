@@ -27,12 +27,13 @@ function search({ map, g, threshold, path, node, goal, markFrontier, markVisited
     return min;
 }
 
-function ida_star({ map, start, goal, markFrontier, markVisited, startIteration }) {
+function ida_star({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
     let visited = Array.from(Array(map.length), () => new Array(map[0].length));
     let threshold = heuristic(start, goal);
     while (true) {
         let path = [start];
         startIteration();
+        inform(`threshold: ${threshold}`);
         let tmp = search({ map, g: 0, threshold, path, node: start, goal, markFrontier, markVisited, visited });
         if (tmp === true)
             return path;

@@ -1,13 +1,17 @@
-function recursive_best_first_search({ map, start, goal, markFrontier, markVisited, startIteration }) {
+function recursive_best_first_search({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
     let path = [start];
     let visited = Array.from(Array(map.length), () => new Array(map[0].length).fill(false));
-    let [result, _] = rbfs({ map, node: start, goal, g: 0, f_limit: Infinity, path, markFrontier, markVisited, startIteration, visited });
+    let [result, _] = rbfs({ map, node: start, goal, g: 0, f_limit: Infinity, path, inform, markFrontier, markVisited, startIteration, visited });
     return result ? path : null;
 }
 
-function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, startIteration, visited }) {
+function rbfs({ map, node, goal, g, f_limit, path, inform, markFrontier, markVisited, startIteration, visited }) {
     startIteration();
     let f_node = g + heuristic(node, goal);
+    inform(`node: (${node[0]}, ${node[1]})`);
+    inform(`f(n) = ${f_node}`);
+    inform(`f_limit: ${f_limit}`);
+    inform(`recursion depth: ${path.length}`);
 
     if (f_node > f_limit) return [false, f_node];
     if (node[0] === goal[0] && node[1] === goal[1])
@@ -35,7 +39,7 @@ function rbfs({ map, node, goal, g, f_limit, path, markFrontier, markVisited, st
         let alt = successors[1]?.f ?? Infinity;
 
         path.push(best.node);
-        let [result, new_f] = rbfs({ map, node: best.node, goal, g: best.g, f_limit: Math.min(alt, f_limit), path, markFrontier, markVisited, startIteration, visited });
+        let [result, new_f] = rbfs({ map, node: best.node, goal, g: best.g, f_limit: Math.min(alt, f_limit), path, inform, markFrontier, markVisited, startIteration, visited });
 
         if (result) return [true, new_f];
         path.pop();

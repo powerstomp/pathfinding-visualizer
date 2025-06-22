@@ -32,6 +32,7 @@ function controller(state) {
 					let path = algorithm.run({
 						map: state.map, start, goal,
 						startIteration: () => frames.push([]),
+						inform: (str) => frames.at(-1).push(str),
 						markFrontier: ([i, j]) =>
 							frames.at(-1).push([i, j, frontierColor]),
 						markVisited: ([i, j]) =>
@@ -60,15 +61,16 @@ function controller(state) {
 					state.map[goal[0]][goal[1]] = 'G';
 				}
 			}
+			this.extraData = "";
 			this.frames = frames;
 			this.currentFrame = 0;
 			this.runFrame();
 		},
 		runFrame(_id) {
 			state.drawGrid();
-			this.extraData = "";
 
 			for (let id = 0; id <= _id; id++) {
+				this.extraData = "";
 				for (obj of this.frames[id]) {
 					if (typeof obj === "string")
 						this.extraData += obj + '\n';

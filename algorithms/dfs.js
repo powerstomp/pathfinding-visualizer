@@ -1,4 +1,4 @@
-function dfs({ map, start, goal, markFrontier, markVisited, startIteration }) {
+function dfs({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
 	let visited = Array.from(Array(map.length), () => new Array(map[0].length));
 	let path = [];
 	const run = (x, y) => {
@@ -9,6 +9,7 @@ function dfs({ map, start, goal, markFrontier, markVisited, startIteration }) {
 			return true;
 
 		startIteration();
+		inform(`position: (${x}, ${y})`)
 		visited[x][y] = true;
 		markVisited([x, y]);
 

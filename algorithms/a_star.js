@@ -1,4 +1,4 @@
-function a_star({ map, start, goal, markFrontier, markVisited, startIteration }) {
+function a_star({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
 
     let cameFrom = Array.from(Array(map.length), () => new Array(map[0].length).fill(null));
     let g = Array.from(Array(map.length), () => new Array(map[0].length).fill(Infinity));
@@ -15,6 +15,8 @@ function a_star({ map, start, goal, markFrontier, markVisited, startIteration })
         startIteration();
         let cur = openList.pop();
         markVisited(cur);
+        inform(`g(n) = ${g[cur[0]][cur[1]]}`);
+        inform(`f(n) = ${f[cur[0]][cur[1]]}`);
 
         if (cur[0] === goal[0] && cur[1] === goal[1]) {
             let path = [cur]

@@ -1,4 +1,4 @@
-function beam({ map, start, goal, markFrontier, markVisited, startIteration, beamWidth }) {
+function beam({ map, start, goal, inform, markFrontier, markVisited, startIteration, beamWidth }) {
     let visited = Array.from(Array(map.length), () => new Array(map[0].length));
     let q = new queue();
     q.push({ path: [start], cost: map[start[0]][start[1]] });
@@ -6,9 +6,11 @@ function beam({ map, start, goal, markFrontier, markVisited, startIteration, bea
 
     while (!q.isEmpty()) {
         startIteration();
+        inform("costs:");
         let candidates = [];
         while (!q.isEmpty()) {
             let { path, cost } = q.pop();
+            inform(cost.toString());
             const [x, y] = path[path.length - 1];
             markVisited([x, y]);
             if (x === goal[0] && y === goal[1]) {

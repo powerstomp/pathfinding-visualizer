@@ -1,4 +1,4 @@
-function ucs({ map, start, goal, markFrontier, markVisited, startIteration }) {
+function ucs({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
     const _return_path = (pt, g) => {
         let cur = g;
         let path = []
@@ -29,6 +29,7 @@ function ucs({ map, start, goal, markFrontier, markVisited, startIteration }) {
         }
 
         startIteration();
+        inform(`g(n) = ${cur_tile[2]}`);
         ex_fr_map[cur_tile[0]][cur_tile[1]][EX] = true; // mark tile as visited
         markVisited(cur_tile);
 
