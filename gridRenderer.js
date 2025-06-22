@@ -92,8 +92,11 @@ function gridRenderer() {
 			this.ctx.strokeStyle = "black";
 			this.ctx.font = "14px monospaced";
 			this.ctx.textBaseline = "top";
-			if (Number.isFinite(this.map[i][j]))
-				this.ctx.strokeText(this.map[i][j], x + 2, y + 1);
+			let digit = this.map[i][j];
+			if (this.map[i][j] === 'G')
+				digit = 1;
+			if (Number.isFinite(digit))
+				this.ctx.strokeText(digit, x + 2, y + 1);
 		},
 		toggleCell(i, j) {
 			if (!Number.isFinite(this.map[i][j]))

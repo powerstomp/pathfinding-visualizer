@@ -10,12 +10,14 @@ function controller(state) {
 		runtimeMillis: 0,
 		pathCost: null,
 		beamWidth: 3,
+		extraData: "",
 		init() {
 			this.frames = [[]];
 			this.path = [];
 			this.currentFrame = 0;
 			this.runtimeMillis = 0;
 			this.pathCost = null;
+			this.extraData = "";
 			this.runFrame(this.currentFrame);
 		},
 		runAlgorithm() {
@@ -25,7 +27,7 @@ function controller(state) {
 			if (algorithm.run && (start = findMap(state.map, 'S')) && (goal = findMap(state.map, 'G'))) {
 				try {
 					state.map[start[0]][start[1]] = 0;
-					state.map[goal[0]][goal[1]] = 0;
+					state.map[goal[0]][goal[1]] = 1;
 					let startTime = performance.now();
 					let path = algorithm.run({
 						map: state.map, start, goal,
@@ -64,15 +66,27 @@ function controller(state) {
 		},
 		runFrame(_id) {
 			state.drawGrid();
-			for (let id = 0; id <= _id; id++)
-				for (obj of this.frames[id])
-					state.drawCell(...obj);
+			this.extraData = "";
+
+			for (let id = 0; id <= _id; id++) {
+				for (obj of this.frames[id]) {
+					if (typeof obj === "string")
+						this.extraData += obj + '\n';
+					else
+						state.drawCell(...obj);
+				}
+			}
 		},
 		runNextFrame() {
 			if (++this.currentFrame >= this.frames.length)
 				this.currentFrame = this.frames.length - 1;
-			for (obj of this.frames[this.currentFrame])
-				state.drawCell(...obj);
+			this.extraData = "";
+			for (obj of this.frames[this.currentFrame]) {
+				if (typeof obj === "string")
+					this.extraData += obj + '\n';
+				else
+					state.drawCell(...obj);
+			}
 			// this.runFrame(this.currentFrame);
 		},
 		runPreviousFrame() {
