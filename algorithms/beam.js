@@ -23,14 +23,14 @@ function beam({ map, start, goal, inform, markFrontier, markVisited, startIterat
                     markFrontier([nx, ny]);
                     candidates.push({
                         path: [...path, [nx, ny]],
-                        cost: cost + map[nx][ny]
+                        informValue: inform([nx, ny])
                     });
 
                 }
             }
         }
 
-        candidates.sort((a, b) => a.cost - b.cost);
+        candidates.sort((a, b) => a.informValue - b.informValue);
         for (let i = 0; i < Math.min(beamWidth, candidates.length); i++) {
             q.push(candidates[i]);
 
