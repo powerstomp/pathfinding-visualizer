@@ -23,16 +23,18 @@ function beam({ map, start, goal, inform, markFrontier, markVisited, startIterat
                     markFrontier([nx, ny]);
                     candidates.push({
                         path: [...path, [nx, ny]],
-                        informValue: inform([nx, ny])
+                        cost: cost + map[nx][ny],
+                        heuristicValue: heuristic([nx, ny], goal)
                     });
 
                 }
             }
         }
 
-        candidates.sort((a, b) => a.informValue - b.informValue);
+        candidates.sort((a, b) => a.heuristicValue - b.heuristicValue);
         for (let i = 0; i < Math.min(beamWidth, candidates.length); i++) {
             q.push(candidates[i]);
+            console.log(candidates[i]);
 
         }
     }
