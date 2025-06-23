@@ -1,6 +1,6 @@
-const visitedColor = "#cbc7d8";    // Muted Lavender-Blue (slightly desaturated for background elements)
-const frontierColor = "#f2dde1";   // Vibrant Raspberry (stands out as active frontier)
-const pathColor = "#e094a0";      // Bright Spring Green (for the explored path segments)
+const visitedColor = "#cbc7d8";
+const frontierColor = "#f2dde1";
+const pathColor = "#e094a0";
 
 function controller(state) {
 	return {
