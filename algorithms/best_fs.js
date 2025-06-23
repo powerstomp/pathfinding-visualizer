@@ -1,8 +1,3 @@
-function HRT_MNHTTN(cur, goal) {
-    const R = 0, C = 1, HRT = 2;
-    return Math.abs(cur[R] - goal[R]) + Math.abs(cur[C] - goal[C]);
-}
-
 function bestFS({ map, start, goal, inform, markFrontier, markVisited, startIteration }) {
     const _return_path = (pt, g) => {
         let cur = g;
@@ -16,7 +11,7 @@ function bestFS({ map, start, goal, inform, markFrontier, markVisited, startIter
 
     const R = 0, C = 1, HRT = 2;
     let frontier = new minheap((a, b) => (a[HRT] - b[HRT]))
-    frontier.push([start[R], start[C], HRT_MNHTTN(start, goal)]);
+    frontier.push([start[R], start[C], heuristic(start, goal)]);
 
     const EXP = 0, FRT = 1;
     let ex_fr_map = Array.from({ length: map.length }, () => Array.from({ length: map[0].length }, () => Array.from({ length: 2 }, () => null)));
@@ -40,7 +35,7 @@ function bestFS({ map, start, goal, inform, markFrontier, markVisited, startIter
         markVisited(cur);
 
         for (let next of getAdjacent(map, cur)) {
-            next.push(HRT_MNHTTN(next, goal));
+            next.push(heuristic(next, goal));
             if (ex_fr_map[next[R]][next[C]][FRT] || ex_fr_map[next[R]][next[C]][EXP]) // if in frontier or explored
                 continue;
             frontier.push(next);

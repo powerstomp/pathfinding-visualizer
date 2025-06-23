@@ -27,7 +27,7 @@ function controller(state) {
 			if (algorithm.run && (start = findMap(state.map, 'S')) && (goal = findMap(state.map, 'G'))) {
 				try {
 					state.map[start[0]][start[1]] = 0;
-					state.map[goal[0]][goal[1]] = 1;
+					state.map[goal[0]][goal[1]] = 9;
 					let startTime = performance.now();
 					let path = algorithm.run({
 						map: state.map, start, goal,

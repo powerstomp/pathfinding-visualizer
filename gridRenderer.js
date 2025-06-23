@@ -94,7 +94,7 @@ function gridRenderer() {
 			this.ctx.textBaseline = "top";
 			let digit = this.map[i][j];
 			if (this.map[i][j] === 'G')
-				digit = 1;
+				digit = 9;
 			if (Number.isFinite(digit))
 				this.ctx.strokeText(digit, x + 2, y + 1);
 		},

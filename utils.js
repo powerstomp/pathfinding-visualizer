@@ -1,4 +1,4 @@
-function getRandomDigit() { return 1 + Math.floor(Math.random() * 9) };
+function getRandomDigit() { return 5 + Math.floor(Math.random() * 5) };
 
 function resizeMap(map, w, h) {
 	return Array.from({ length: w }, (_, y) =>
@@ -102,5 +102,5 @@ function randomMazeGen(map) {
 }
 
 function heuristic(a, b) {
-	return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+	return 5 * (Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]));
 }
